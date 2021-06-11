@@ -1,0 +1,44 @@
+CREATE TABLE `twitter`.`users` (
+  `uid` INT NOT NULL,
+  `username` VARCHAR(45) NOT NULL,
+  `useremail` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(45) NOT NULL,
+  `dob` DATE NOT NULL,
+  `firstname` VARCHAR(45) NOT NULL,
+  `lastname` VARCHAR(45) NULL,
+  PRIMARY KEY (`uid`),
+  UNIQUE INDEX `uid_UNIQUE` (`uid` ASC) VISIBLE,
+  UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE,
+  UNIQUE INDEX `useremail_UNIQUE` (`useremail` ASC) VISIBLE);
+
+
+
+
+CREATE TABLE `twitter`.`tweets` (
+  `tid` INT NOT NULL,
+  `uid` INT NOT NULL,
+  `content` VARCHAR(45) NOT NULL,
+  `likecnt` VARCHAR(45) NULL,
+  `retweetcnt` VARCHAR(45) NULL,
+  PRIMARY KEY (`tid`),
+  UNIQUE INDEX `tid_UNIQUE` (`tid` ASC) VISIBLE,
+  INDEX `uid_idx` (`uid` ASC) VISIBLE,
+  CONSTRAINT `uid`
+    FOREIGN KEY (`uid`)
+    REFERENCES `twitter`.`users` (`uid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+    
+    
+    
+    CREATE TABLE `twitter`.`follwers` (
+  `fid` INT NOT NULL,
+  `uid` INT NULL,
+  `following` INT NULL,
+  PRIMARY KEY (`fid`),
+  INDEX `following_idx` (`following` ASC) VISIBLE,
+  CONSTRAINT `following`
+    FOREIGN KEY (`following`)
+    REFERENCES `twitter`.`users` (`uid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);

@@ -1,0 +1,12 @@
+//for getting following and follwers count
+
+SELECT SUM(follower = "7") AS followerCount, SUM(following = "7") AS followingCount FROM followers WHERE follower = "7" OR following = "7";
+
+
+
+//tweets from user who client follows
+
+select * from tweets where uid='7' or uid in (select following from followers where follower='7');
+
+
+select t.content,t.likecnt,t.retweetcnt,t.timestamp,u.username,u.firstname,u.lastname from tweets t left join users u on t.uid=u.uid where t.uid='7' or t.uid in (select following from followers f where f.follower='7') ORDER BY t.timestamp desc;
