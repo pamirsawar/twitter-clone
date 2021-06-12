@@ -12,6 +12,7 @@
 <script src="/js/formrefresh.js"></script>
 <script src="/js/searchuser.js"></script>
 <script src="/js/followUnfollow.js"></script>
+<script src="/js/liketweet.js"></script>
 
 <style>
   h6 {

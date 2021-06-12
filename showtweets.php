@@ -33,8 +33,7 @@ try {
                         <h6 class="mt-0 pt-0"><a href="/user.php?usn=<?= $row['username'] ?>">@<?php echo $row['username']; ?></a><small><i> <?php echo time_elapsed_string($row['timestamp']); ?></i></small></h6>
                         <p><strong><?php echo $row['content']; ?> </strong></p>
 
-                        <button class="btn btn-sm btn-danger"><?php echo "likes " . $row['likecnt']; ?>
-
+                        <button id="btn<?=$tid?>" class="btn btn-sm btn-danger" onclick="like(<?=$tid?>)"><?php echo "likes " . $row['likecnt']; ?>
                         </button> <button class="btn btn-sm btn-success"><?php echo "retweet " . $row['retweetcnt']; ?> </button>
 
                         <?php

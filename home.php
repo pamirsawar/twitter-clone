@@ -2,10 +2,11 @@
 
 session_start();
 
-if (!isset($_SESSION['loggedin']) && $_SESSION['loggedin']!= true) {
+if (!isset($_SESSION['loggedin']) && $_SESSION['loggedin']!= false) 
+{
     
     header("location: login.php");
-echo "error here";
+//echo "error here";
     
     }
     else{

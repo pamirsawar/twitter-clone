@@ -8,7 +8,7 @@ if (@$_GET['registered'] == 'true')
     echo 'You have registered successfully.';
 }
 // check if the user is already logged in
-if (isset($_SESSION['username'])) {
+if (isset($_SESSION['username']) && $_SESSION['username']!="") {
   header("location: home.php");
   exit;
 }
