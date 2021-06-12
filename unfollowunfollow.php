@@ -22,8 +22,13 @@ if ($result->num_rows > 0) {
     $del = $conn->query($delete);
   
     if ($del) {
-        echo "follow";
-        
+
+        $sql="select * from followers where following='$id'";
+        $result = $conn->query($sql);
+
+    
+        echo "follow ";
+        echo "".$result->num_rows;    
     }
 } else {
 
@@ -35,6 +40,12 @@ if ($result->num_rows > 0) {
     
     if($follow)
     {
-        echo "unfollow";
+
+        $sql="select * from followers where following='$id'";
+        $result = $conn->query($sql);
+
+        echo "unfollow ";
+        echo "".$result->num_rows;    
+
     }
 }

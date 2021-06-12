@@ -16,9 +16,9 @@ function followUnfollow(str) {
 
                 console.log(result);
 
-            document.getElementById("FUbtn").innerHTML=result;
+            document.getElementById("FUbtn").innerHTML=result[0];
           //  document.getElementById("followers").innerText;
-          document.getElementById("followingcnt").innerHTML="updated";
+          document.getElementById("followingcnt").innerHTML=result[1];
         }
 
 

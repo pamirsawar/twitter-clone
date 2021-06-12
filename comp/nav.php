@@ -25,20 +25,20 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
         </li>
       </ul>
 
-
-
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" onkeyup="showResult(this.value)" type="text" placeholder="Search">
-        <button class="btn btn-success my-2 my-sm-0" type="button">Search</button>
-      </form>
-
       <ul class="navbar-nav">
         <li class="mr-auto nav-item active">
-          <a class="nav-link" href="../profile.php"> <img src="https://img.icons8.com/metro/26/000000/guest-male.png"> Welcome
+          <a class="nav-link" href="../profile.php"> <img src="https://img.icons8.com/metro/26/000000/guest-male.png"> 
             <?php echo $_SESSION["username"]; ?>
           </a>
         </li>
       </ul>
+
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" onkeyup="showResult(this.value)" type="text" placeholder="Search">
+        <!-- <button class="btn btn-success my-2 my-sm-0" type="button">Search</button> -->
+      </form>
+
+      
     </div>
   </nav>
 

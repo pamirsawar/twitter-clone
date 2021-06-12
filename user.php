@@ -117,7 +117,7 @@ session_start();
                             </div>
                             <div class="d-inline col-lg-6 col-md-6">
                                 <h5 id="following">FOLLOWING <strong><?php echo $followerCount; ?></strong> </h5>
-                                <h5 id="followers">FOLLOWERS <strong><?php echo $followingCount ?></strong></h5>
+                                <h5 id="followers">FOLLOWERS <strong id="followingcnt" ><?php echo $followingCount ?></strong></h5>
                             </div>
                         </div>
                         <!-- ADD FOLLOW/UNFOLLOW BUTTON LATER -->

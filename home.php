@@ -30,17 +30,7 @@ if (!isset($_SESSION['loggedin']) && $_SESSION['loggedin']!= false)
     
     <body>
     <?php 
-    
-        include "./config.php";
-        include "./comp/nav.php";
-        include "./maketweet.php";
-        include "./showtweets.php";
-        require_once "./timeelaspedfunction.php";
-    }
 
-
-
-    echo "in body";
 
 if(isset($_SESSION['successmsg']) && $_SESSION['successmsg']!="" )
 {
@@ -52,6 +42,19 @@ if(isset($_SESSION['successmsg']) && $_SESSION['successmsg']!="" )
   $_SESSION['successmsg']="";
   
 }
+    
+        include "./config.php";
+        include "./comp/nav.php";
+        include "./maketweet.php";
+        include "./showtweets.php";
+        require_once "./timeelaspedfunction.php";
+    }
+
+
+
+    //echo "in body";
+
+
 
 ?>
 

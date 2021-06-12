@@ -82,10 +82,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $result = $stmt->execute();
         }
         $stmt->close();
+        $conn->close();
+        header("location: login.php?registered=true");
     }
 
-    $conn->close();
-    header("location: login.php?registered=true");
+
 }
 
 ?>
@@ -142,33 +143,33 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
             <div class="form-group col-md-6">
                 <label for="inputEmail4">first name </label>
-                <input type="text" class="form-control" name="fname" placeholder="first name">
+                <input type="text" class="form-control" name="fname" required placeholder="first name">
             </div>
             <div class="form-group col-md-6">
                 <label for="inputEmail4">last name </label>
-                <input type="text" class="form-control" name="lname" placeholder="last name">
+                <input type="text" class="form-control" name="lname" required placeholder="last name">
             </div>
             <div class="form-group col-md-6">
                 <label for="inputEmail4">email </label>
-                <input type="text" class="form-control" name="email" placeholder="Email">
+                <input type="text" class="form-control" name="email" required placeholder="Email">
             </div>
             <div class="form-group col-md-6">
                 <label for="inputEmail4">Username</label>
-                <input type="text" class="form-control" name="username" placeholder="username">
+                <input type="text" class="form-control" name="username" required placeholder="username">
             </div>
             <div class="form-group col-md-6">
                 <label for="inputPassword4">Password</label>
-                <input type="password" class="form-control" name="password" id="inputPassword4" placeholder="Password">
+                <input type="password" class="form-control" name="password" required id="inputPassword4" placeholder="Password">
             </div>
             <div class="form-group col-md-6">
                 <label for="inputPassword4">Confirm Password</label>
-                <input type="password" class="form-control" name="confirm_password" id="inputPassword" placeholder="Confirm Password">
+                <input type="password" class="form-control" name="confirm_password" required  id="inputPassword" placeholder="Confirm Password">
             </div>
 
 
             <div class="form-group col-md-6">
                 <label for="inputEmail4">dob </label>
-                <input type="date" class="form-control" name="dob" placeholder="date of birth">
+                <input type="date" class="form-control" name="dob" required placeholder="date of birth">
             </div>
 
 
