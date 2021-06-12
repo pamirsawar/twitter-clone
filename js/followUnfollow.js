@@ -3,16 +3,22 @@ function followUnfollow(str) {
    
    // var result = new Array();
     var xmlhttp = new XMLHttpRequest();
+    var result = new Array();
    
+    console.log("in follow unfollow funtion");
+
     xmlhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
 
-        var btn=document.getElementById("FUbtn")
+            result = this.responseText.split(" ");
+
       
-            let result = this.responseText
-           
+
+                console.log(result);
+
             document.getElementById("FUbtn").innerHTML=result;
           //  document.getElementById("followers").innerText;
+          document.getElementById("followingcnt").innerHTML="updated";
         }
 
 
