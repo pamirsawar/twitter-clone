@@ -2,7 +2,7 @@ function showResult(str) {
     if (str.length == 0) {
         document.getElementById("searchResult").innerHTML = "";
      //  document.getElementById("livesearch").innertext="";  
-        document.getElementById("livesearch").style.border = "0px";
+     //   document.getElementById("livesearch").style.border = "0px";
         return;
     }
 

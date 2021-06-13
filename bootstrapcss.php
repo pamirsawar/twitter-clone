@@ -22,8 +22,9 @@
 
   ul.nav-list{
     position: absolute;
-    left: 51%;
-    width: 22%;
+    top:3.8rem;
+    left: 81%;
+    width: 17%;
     z-index: 1;
 
   }
@@ -32,8 +33,9 @@
   {
     ul.nav-list{
     position: absolute;
-    left: 0;
-    width: 31%;
+    top:15rem;
+    left: 10px;
+    width: 10rem;
     z-index: 1;
   }
   }

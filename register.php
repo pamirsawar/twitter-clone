@@ -1,72 +1,124 @@
 <?php
 require_once "config.php";
 
-$username = $password = $confirm_password = "";
-$username_err = $password_err = $confirm_password_err = "";
+$username = $useremail = $fname_err = $lname_err = $password = $confirm_password = "";
+$username_err = $usermail_err = $fname_err = $lname_err = $password_err = $confirm_password_err = "";
 
+
+function test_input($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 
+
+    if (empty(trim($_POST['fname']))) {
+
+        $fname_err = "first name cannot be empty";
+    } else {
+        $fname = test_input($_POST["fname"]);
+        // check if name only contains letters and whitespace
+        if (!preg_match("/^[a-zA-Z-' ]*$/", $fname)) {
+            $fname_err = "Only letters and white space allowed";
+        }
+    }
+    if (empty(trim($_POST['lname']))) {
+
+        $lname_err = "last name cannot be empty";
+    } else {
+        $lname = test_input($_POST["lname"]);
+        // check if name only contains letters and whitespace
+        if (!preg_match("/^[a-zA-Z-' ]*$/", $lname)) {
+            $lname_err = "Only letters and white space allowed";
+        }
+    }
+
+    //email validation
+    if (empty($_POST["useremail"])) {
+        $useremail_err = "Email is required";
+        $useremail = $_POST['usermail'];
+    } else {
+        $useremail = test_input($_POST["useremail"]);
+        // check if e-mail address is well-formed
+        if (!filter_var($useremail, FILTER_VALIDATE_EMAIL)) {
+            $useremail_err = "Invalid email format";
+        }
+    }
+
+
     // Check if username is empty       
 
-    if (empty(trim($_POST["username"]))) {
+    if (empty(trim($_POST['username']))) {
         $username_err = "Username cannot be blank";
-    } else {
+        $username = test_input($_POST['username']);
+    }
 
+    if (!empty(trim($_POST['username']))) {
+        $username = test_input($_POST['username']);
+        // check if name only contains letters and whitespace
+        if (!preg_match("/^[0-9a-zA-Z-' ]*$/", $username)) {
+            $username_err = "no speacial charcter allowed in username";
+        } else {
 
-        $sql = "SELECT id FROM users WHERE username = ?";
-        $stmt = $conn->prepare($sql);
-        if ($stmt) {
-            $stmt->bind_param("s", $param_username);
+            $username = $_POST['username'];
+            $sql = "SELECT uid FROM users WHERE username = '$username'";
+            $result = $conn->query($sql);
+            if ($result) {
 
-
-
-            // Set the value of param username
-            $param_username = trim($_POST['username']);
-
-            // Try to execute this statement
-            if ($stmt->execute()) {
-                //mysqli_stmt_store_result($stmt);
-                if ($stmt->num_rows == 1) {
+                if ($result->num_rows == 1) {
                     $username_err = "This username is already taken";
                 } else {
                     $username = trim($_POST['username']);
+                  //  $username_err="";
+
                 }
-            } else {
-                echo "Something went wrong";
             }
         }
-        // $stmt->close();
     }
-
 
 
 
     // Check for password
     if (empty(trim($_POST['password']))) {
         $password_err = "Password cannot be blank";
-    } elseif (strlen(trim($_POST['password'])) < 5) {
-        $password_err = "Password cannot be less than 5 characters";
+    } elseif (strlen(trim($_POST['password'])) < 6) {
+        $password_err = "Password cannot be less than 6 characters";
     } else {
         $password = trim($_POST['password']);
+
+      //  $password_err="";
     }
 
     // Check for confirm password field
     if (trim($_POST['password']) !=  trim($_POST['confirm_password'])) {
-        $password_err = "Passwords should match";
+        $confirm_password_err = "Passwords should match";
+    }else{
+        $confirm_password_err="";
+    }
+
+    if (empty(trim($_POST['dob']))) {
+        $dob_err = "please enter your birthdate";
+        $dob = $_POST['dob'];
+    } else {
+        $dob = $_POST['dob'];
     }
 
 
     // If there were no errors, go ahead and insert into the database
 
+        echo "username error: ".$username_err;
 
 
-    if (empty($username_err) && empty($password_err) && empty($confirm_password_err)) {
+    if (empty($username_err) && empty($password_err) && empty($confirm_password_err) && empty($dob_err)) {
 
+echo "in here";
 
-
-       $sql = "INSERT INTO users (username,useremail,password,dob,firstname,lastname) VALUES (?,?,?,?,?,?)";
+        $sql = "INSERT INTO users (username,useremail,password,dob,firstname,lastname) VALUES (?,?,?,?,?,?)";
 
         $stmt = $conn->prepare($sql);
         if ($stmt) {
@@ -74,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             // Set these parameters
             $param_username = $_POST['username'];
             $param_password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-            $param_usermail = $_POST['email'];
+            $param_usermail = $_POST['useremail'];
             $param_dob = $_POST['dob'];
             $param_firstname = $_POST['fname'];
             $param_lastname = $_POST['lname'];
@@ -85,8 +137,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $conn->close();
         header("location: login.php?registered=true");
     }
-
-
 }
 
 ?>
@@ -106,6 +156,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     <title>twitter</title>
 
+    <style>
+        .error {
+
+            color: red;
+        }
+    </style>
 
 </head>
 
@@ -143,33 +199,40 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
             <div class="form-group col-md-6">
                 <label for="inputEmail4">first name </label>
-                <input type="text" class="form-control" name="fname" required placeholder="first name">
+                <input value="<?= $fname ?>" type="text" class="form-control" name="fname" placeholder="first name">
+                <span class="error"><?= $fname_err ?></span>
             </div>
             <div class="form-group col-md-6">
                 <label for="inputEmail4">last name </label>
-                <input type="text" class="form-control" name="lname" required placeholder="last name">
+                <input value="<?= $lname ?>" type="text" class="form-control" name="lname" placeholder="last name">
+                <span class="error"><?= $lname_err ?></span>
             </div>
             <div class="form-group col-md-6">
                 <label for="inputEmail4">email </label>
-                <input type="text" class="form-control" name="email" required placeholder="Email">
+                <input type="text" class="form-control" name="useremail" value="<?= $useremail ?>" placeholder="Email">
+                <span class="error"><?= $useremail_err ?></span>
             </div>
             <div class="form-group col-md-6">
                 <label for="inputEmail4">Username</label>
-                <input type="text" class="form-control" name="username" required placeholder="username">
+                <input type="text" class="form-control" name="username" value="<?= $username ?>" placeholder="username">
+                <span class="error"><?= $username_err ?></span>
             </div>
             <div class="form-group col-md-6">
                 <label for="inputPassword4">Password</label>
-                <input type="password" class="form-control" name="password" required id="inputPassword4" placeholder="Password">
+                <input type="password" autocomplete="new-password" value="<?= $password ?>" class="form-control" name="password" id="inputPassword4" placeholder="Password">
+                <span class="error"><?= $password_err ?></span>
+
             </div>
             <div class="form-group col-md-6">
                 <label for="inputPassword4">Confirm Password</label>
-                <input type="password" class="form-control" name="confirm_password" required  id="inputPassword" placeholder="Confirm Password">
+                <input type="password" class="form-control" name="confirm_password" value="<?= $confirm_password ?>" id="inputPassword" placeholder="Confirm Password">
+                <span class="error"><?= $confirm_password_err ?></span>
             </div>
 
 
             <div class="form-group col-md-6">
                 <label for="inputEmail4">dob </label>
-                <input type="date" class="form-control" name="dob" required placeholder="date of birth">
+                <input type="date" class="form-control" name="dob" placeholder="date of birth">
             </div>
 
 

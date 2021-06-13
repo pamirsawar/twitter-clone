@@ -22,7 +22,7 @@ try {
 ?>
 
 
-            <div id="tweet<?=$tid?>" class=" container mt-3">
+            <div id="tweet<?= $tid ?>" class=" container mt-3">
                 <!-- <h2>Media Object</h2>
   <p>Create a media object with the .media and .media-body classes:</p>
   -->
@@ -33,16 +33,32 @@ try {
                         <h6 class="mt-0 pt-0"><a href="/user.php?usn=<?= $row['username'] ?>">@<?php echo $row['username']; ?></a><small><i> <?php echo time_elapsed_string($row['timestamp']); ?></i></small></h6>
                         <p><strong><?php echo $row['content']; ?> </strong></p>
 
-                        <button id="btn<?=$tid?>" class="btn btn-sm btn-danger" onclick="like(<?=$tid?>)"><?php echo "likes " . $row['likecnt']; ?>
-                        </button> <button class="btn btn-sm btn-success"><?php echo "retweet " . $row['retweetcnt']; ?> </button>
+                        <?php
+
+                        $sql2 = "select * from likes where tid='$tid' and uid='$id'";
+
+                        $result2 = $conn->query($sql2);
+
+                        //echo "mysql error".$conn->error;
+
+                        if ($result2->num_rows) {
+
+                            $flag = "liked";
+                        } else {
+                            $flag = "like";
+                        }
+                        ?>
+
+                        <button id="btn<?= $tid ?>" class="btn btn-sm btn-danger" onclick="like(<?= $tid ?>)"><?= $flag ?> <?php echo "" . $row['likecnt']; ?> </button>
+                        <button class="btn btn-sm btn-success"><?php echo "retweet " . $row['retweetcnt']; ?> </button>
 
                         <?php
                         if ($id == $row['uid']) {
-                           // $tid = $row['tid'];
+                            // $tid = $row['tid'];
 
                             //  echo "<a class=' btn btn-sm btn-warning' href='/deletetweet.php?tid=$tid'> Delete tweet</a>";
                         ?>
-                            <a id="delete" class="delete btn btn-sm btn-warning" onclick="deleteTweet(<?=$tid?>)">Delete tweet</a>
+                            <a id="delete" class="delete btn btn-sm btn-warning" onclick="deleteTweet(<?= $tid ?>)">Delete tweet</a>
 
                         <?php
                         }

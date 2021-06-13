@@ -2,11 +2,7 @@
 //This script will handle login
 session_start();
 
-//after registration when redirect here
-if (@$_GET['registered'] == 'true')
-{
-    echo 'You have registered successfully.';
-}
+
 // check if the user is already logged in
 if (isset($_SESSION['username']) && $_SESSION['username']!="") {
   header("location: home.php");
@@ -15,53 +11,30 @@ if (isset($_SESSION['username']) && $_SESSION['username']!="") {
 
 require_once "config.php";
 
-//$username = $password = "";
-//$err = "";
-
-
 // if request method is post
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
   if (empty(trim($_POST['username'])) || empty(trim($_POST['password']))) {
-    $err = "Please enter username + password";
-  } else {
+    $err = "Please enter username & password";
+  } 
+  else {
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
   }
 
-
   if (empty($err)) {
-   
-   /*
-   //with prepared statement tech
-    $sql = "SELECT * FROM users WHERE username = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $param_username);
-    $param_username = $username;
-*/
 
-//without prepare statement
     $sql= "SELECT * FROM users WHERE username ='$username'";
 
-  //  echo "<br> sql statement is :".$sql;
     $result=$conn->query($sql);
 
-   if($result->num_rows)
-   {
-    $row=$result->fetch_assoc();
-
-  //  echo "<br> row username :".$row['username'];
-    if ($result)
+    if ($result->num_rows>0)
      {
-     //  echo "query executed";
-     
-
+        //user exist
+      $row=$result->fetch_assoc();
        
-       if ($result->num_rows == 1) {
-       //echo "found user";
-       
-          if (password_verify($password, $row['password'])) {
+          if(password_verify($password, $row['password'])) 
+          {
             // this means the password is corrct. Allow user to login
-          //  echo "password correct";
          //   session_start();
             $_SESSION["username"] = $username;
             $_SESSION["id"] = $row['uid'];
@@ -70,15 +43,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             //Redirect user to welcome page
             header("location: home.php");
           }
-          echo "password incorrect";
-        //}
+          $err="password incorrect";
+      }else
+      {   
+        $err="user doest exit";
       }
     }
-  }
+ }
 
-  echo "user doest exit";
-  }
-}
 
 $conn->close();
 ?>
@@ -94,7 +66,14 @@ $conn->close();
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-  <title>PHP login system!</title>
+  <style>
+        .error {
+
+            color: red;
+        }
+    </style>
+
+  <title>Tweeters</title>
 </head>
 
 <body>
@@ -139,14 +118,16 @@ if (@$_GET['registered'] == 'true')
     <form action="" method="post">
       <div class="form-group">
         <label for="exampleInputEmail1">Username</label>
-        <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Username">
+        <input type="text" name="username" value="<?=$username?>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Username">
       </div>
       <div class="form-group">
         <label for="exampleInputPassword1">Password</label>
         <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Enter Password">
       </div>
-     
+     <span class="error"><?= $err?></span>
+     <div>
       <button type="submit" class="btn btn-primary">Submit</button>
+     </div>
     </form>
   </div>
   </div>

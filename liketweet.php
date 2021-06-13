@@ -16,7 +16,9 @@ if($result->num_rows)
 {
     
    // echo "tweet is liked by user already";
-    $sql2="delete from likes where tid='$tid' and uid='$uid'";
+   
+   
+   $sql2="delete from likes where tid='$tid' and uid='$uid'";
     
     $result=$conn->query($sql2);
 
@@ -27,13 +29,13 @@ if($result->num_rows)
         $sql4="update tweets set likecnt = (select count(tid) from likes where tid='$tid') where tid='$tid'";
         $result=$conn->query($sql4);
         
-        $sql="select * from tweets where tid=$tid";
+        $sql="select * from likes where tid=$tid";
         $result=$conn->query($sql);
         $likecnt=$result->num_rows;
   //  echo "update query error:".$conn->error;
 
-        //echo "like ".$likecnt;
-        echo "like";
+        echo "like ".$likecnt;
+       // echo "like";
     }
 }
 else{
@@ -51,13 +53,13 @@ else{
 
             $result=$conn->query($sql4);
          
-        $sql="select * from tweets where tid=$tid";
+        $sql="select * from likes where tid=$tid";
         $result=$conn->query($sql);
         $likecnt=$result->num_rows;
 
          
-        //    echo "dislike ".$likecnt;
-            echo "dislike";
+           echo "liked ".$likecnt;
+            // echo "dislike";
     }
     }
 //$conn->close();
