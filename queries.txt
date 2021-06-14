@@ -42,3 +42,27 @@ CREATE TABLE `twitter`.`tweets` (
     REFERENCES `twitter`.`users` (`uid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
+
+
+CREATE TABLE `twitter`.`comments` (
+  `cid` INT NOT NULL AUTO_INCREMENT,
+  `content` VARCHAR(100) NULL,
+  `username` VARCHAR(45) NULL,
+  `timestamp` VARCHAR(45) NULL,
+  `tid` INT NULL,
+  PRIMARY KEY (`cid`),
+  INDEX `tid_idx` (`tid` ASC) VISIBLE,
+  INDEX `username_idx` (`username` ASC) VISIBLE,
+  CONSTRAINT `username`
+    FOREIGN KEY (`username`)
+    REFERENCES `twitter`.`users` (`username`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `tid`
+    FOREIGN KEY (`tid`)
+    REFERENCES `twitter`.`tweets` (`tid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+ALTER TABLE `twitter`.`comments` 
+ADD COLUMN `likecnt` INT NULL AFTER `tid`;

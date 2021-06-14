@@ -38,5 +38,8 @@
     width: 10rem;
     z-index: 1;
   }
+
+  #comment{
+    resize:none;  }
   }
 </style>

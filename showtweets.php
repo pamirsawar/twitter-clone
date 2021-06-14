@@ -50,7 +50,7 @@ try {
                         ?>
 
                         <button id="btn<?= $tid ?>" class="btn btn-sm btn-danger" onclick="like(<?= $tid ?>)"><?= $flag ?> <?php echo "" . $row['likecnt']; ?> </button>
-                        <button class="btn btn-sm btn-success"><?php echo "retweet " . $row['retweetcnt']; ?> </button>
+                        <a href="/comment.php?tid=<?=$tid?>" class="btn btn-sm btn-success"><?php echo "add comment "// . $row['retweetcnt']; ?> </a>
 
                         <?php
                         if ($id == $row['uid']) {
