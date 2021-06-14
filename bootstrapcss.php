@@ -13,13 +13,16 @@
 <script src="/js/searchuser.js"></script>
 <script src="/js/followUnfollow.js"></script>
 <script src="/js/liketweet.js"></script>
+<script src="/js/comment.js"></script>
 
 <style>
   h6 {
     display: inline;
   }
 
-
+.comment-list{
+  list-style-type: none;  
+}
   ul.nav-list{
     position: absolute;
     top:3.8rem;

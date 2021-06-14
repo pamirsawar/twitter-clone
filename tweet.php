@@ -66,7 +66,16 @@ if (isset($_GET['usn'])) {
 
             <button id="btn<?=$tid?>" class="btn btn-sm btn-danger" onclick="like(<?= $tid ?>)"><?= $flag ?>  <?php echo "".$row['likecnt']; ?> </button>
             
-            </button> <button class="btn btn-sm btn-success"><?php echo "retweet " . $row['retweetcnt']; ?> </button>
+
+            <!-- comment count -->
+            <?php
+
+              $sql3="select * from comments where tid='$tid'";
+              $result3 = $conn->query($sql3);
+            ?>
+
+
+            <a href="/comment.php?tid=<?=$tid?>" class="btn btn-sm btn-success"><?php echo "add comment ".$result3->num_rows; ?> </a>
 
 
             <?php

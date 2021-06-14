@@ -50,7 +50,7 @@ try {
                         ?>
 
                         <button id="btn<?= $tid ?>" class="btn btn-sm btn-danger" onclick="like(<?= $tid ?>)"><?= $flag ?> <?php echo "" . $row['likecnt']; ?> </button>
-                        <a href="/comment.php?tid=<?=$tid?>" class="btn btn-sm btn-success"><?php echo "add comment "// . $row['retweetcnt']; ?> </a>
+                        <a href="/comment.php?tid=<?= $tid ?>" class="btn btn-sm btn-success"><?php echo "add comment " . $result3->num_rows; ?> </a>
 
                         <?php
                         if ($id == $row['uid']) {
@@ -58,6 +58,13 @@ try {
 
                             //  echo "<a class=' btn btn-sm btn-warning' href='/deletetweet.php?tid=$tid'> Delete tweet</a>";
                         ?>
+
+                            <?php
+                //comment count
+                            $sql3 = "select * from comments where tid='$tid'";
+                            $result3 = $conn->query($sql3);
+                            ?>
+
                             <a id="delete" class="delete btn btn-sm btn-warning" onclick="deleteTweet(<?= $tid ?>)">Delete tweet</a>
 
                         <?php
