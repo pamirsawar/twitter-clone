@@ -44,6 +44,16 @@ CREATE TABLE `twitter`.`tweets` (
     ON UPDATE NO ACTION);
 
 
+CREATE TABLE `likes` (
+  `tid` int DEFAULT NULL,
+  `uid` int DEFAULT NULL,
+  KEY `tid` (`tid`),
+  KEY `uid` (`uid`),
+  CONSTRAINT `likes_ibfk_1` FOREIGN KEY (`tid`) REFERENCES `tweets` (`tid`),
+  CONSTRAINT `likes_ibfk_2` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+SELECT * FROM twitter.tweets;
+
 CREATE TABLE `twitter`.`comments` (
   `cid` INT NOT NULL AUTO_INCREMENT,
   `content` VARCHAR(100) NULL,

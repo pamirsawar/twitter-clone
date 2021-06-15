@@ -1,8 +1,10 @@
 <?php
 require_once "config.php";
 
-$username = $useremail = $fname_err = $lname_err = $password = $confirm_password = "";
-$username_err = $usermail_err = $fname_err = $lname_err = $password_err = $confirm_password_err = "";
+$username = $useremail = $fname = $lname = $password = $confirm_password = "";
+$username_err = $useremail_err = $fname_err = $lname_err = $password_err = $confirm_password_err = "";
+
+
 
 
 function test_input($data)
@@ -15,7 +17,29 @@ function test_input($data)
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
+    if (empty($username_err) && empty($password_err) && empty($confirm_password_err) && empty($dob_err)) {
 
+      //  echo "in here";
+        
+                $sql = "INSERT INTO users (username,useremail,password,dob,firstname,lastname) VALUES (?,?,?,?,?,?)";
+        
+                $stmt = $conn->prepare($sql);
+                if ($stmt) {
+                    $stmt->bind_param("ssssss", $param_username, $param_usermail, $param_password, $param_dob, $param_firstname, $param_lastname);
+                    // Set these parameters
+                    $param_username = $_POST['username'];
+                    $param_password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+                    $param_usermail = $_POST['useremail'];
+                    $param_dob = $_POST['dob'];
+                    $param_firstname = $_POST['fname'];
+                    $param_lastname = $_POST['lname'];
+                    // Try to execute the query
+                    $result = $stmt->execute();
+                }
+                $stmt->close();
+                //$conn->close();
+                header("location: login.php?registered=true");
+            }
 
     if (empty(trim($_POST['fname']))) {
 
@@ -114,38 +138,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         echo "username error: ".$username_err;
 
 
-    if (empty($username_err) && empty($password_err) && empty($confirm_password_err) && empty($dob_err)) {
 
-echo "in here";
-
-        $sql = "INSERT INTO users (username,useremail,password,dob,firstname,lastname) VALUES (?,?,?,?,?,?)";
-
-        $stmt = $conn->prepare($sql);
-        if ($stmt) {
-            $stmt->bind_param("ssssss", $param_username, $param_usermail, $param_password, $param_dob, $param_firstname, $param_lastname);
-            // Set these parameters
-            $param_username = $_POST['username'];
-            $param_password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-            $param_usermail = $_POST['useremail'];
-            $param_dob = $_POST['dob'];
-            $param_firstname = $_POST['fname'];
-            $param_lastname = $_POST['lname'];
-            // Try to execute the query
-            $result = $stmt->execute();
-        }
-        $stmt->close();
-        $conn->close();
-        header("location: login.php?registered=true");
-    }
 }
 
 ?>
 
 
-
-
 <!doctype html>
 <html lang="en">
+
 
 <head>
     <!-- Required meta tags -->
@@ -219,13 +220,13 @@ echo "in here";
             </div>
             <div class="form-group col-md-6">
                 <label for="inputPassword4">Password</label>
-                <input type="password" autocomplete="new-password" value="<?= $password ?>" class="form-control" name="password" id="inputPassword4" placeholder="Password">
+                <input type="password" autocomplete="new-password"  class="form-control" name="password" id="inputPassword4" placeholder="Password">
                 <span class="error"><?= $password_err ?></span>
 
             </div>
             <div class="form-group col-md-6">
                 <label for="inputPassword4">Confirm Password</label>
-                <input type="password" class="form-control" name="confirm_password" value="<?= $confirm_password ?>" id="inputPassword" placeholder="Confirm Password">
+                <input type="password" class="form-control" name="confirm_password"  id="inputPassword" placeholder="Confirm Password">
                 <span class="error"><?= $confirm_password_err ?></span>
             </div>
 
@@ -249,5 +250,4 @@ echo "in here";
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
 
 </body>
-
 </html>

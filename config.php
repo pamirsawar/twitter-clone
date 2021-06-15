@@ -11,7 +11,7 @@ define('DB_NAME', 'twitter');
 
 // define('DB_SERVER', 'localhost');
 // define('DB_USERNAME', 'id17025109_samirpawar');
-// define('DB_PASSWORD', '[Qz}nW2~8^[>4RYn');
+// define('DB_PASSWORD', 'Qtd%Uw0B{C-r0~>f');
 // define('DB_NAME', 'id17025109_twitter');
 
 

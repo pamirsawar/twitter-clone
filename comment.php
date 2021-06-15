@@ -1,3 +1,19 @@
+<?php
+require_once "./timeelaspedfunction.php";
+session_start();
+$tid = $_GET['tid'];
+$id = $_SESSION['id'];
+include "./config.php";
+
+$sql = "select t.uid,t.tid,t.content,t.likecnt,t.retweetcnt,t.timestamp,u.username,u.firstname,u.lastname from tweets t left join users u on t.uid=u.uid where t.tid='$tid'";
+
+
+$result = $conn->query($sql);
+
+$row = $result->fetch_assoc();
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <?php
@@ -9,22 +25,7 @@ include "./bootstrapcss.php";
 
 
 <body>
-    <?php
-    require_once "./timeelaspedfunction.php";
-    session_start();
-    $tid = $_GET['tid'];
-    $uid = $_SESSION['id'];
-    include "./config.php";
 
-    $sql = "select t.uid,t.tid,t.content,t.likecnt,t.retweetcnt,t.timestamp,u.username,u.firstname,u.lastname from tweets t left join users u on t.uid=u.uid where t.tid='$tid'";
-
-
-    $result = $conn->query($sql);
-
-    $row = $result->fetch_assoc();
-
-
-    ?>
 
     <div id="tweet<?= $tid ?>" class=" container mt-3">
         <!-- <h2>Media Object</h2>
@@ -87,24 +88,24 @@ include "./bootstrapcss.php";
                         while ($row1 = $result1->fetch_assoc()) {
 
                         ?>
-                        <li class="comment-list">
-                            <div class="media border p-3">
-                                <img src="/image/profile/profile.jpeg" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
-                                <div class="media-body">
-                                    <!-- <h6 class="d-block mb-0 pb-0"><?php //echo "" . $row1['username']; 
-                                                                        ?></h6> -->
-                                    <h6 class="mt-0 pt-0"><a href="/user.php?usn=<?= $row1['username'] ?>">@<?php echo $row1['username']; ?></a><small><i> <?php echo time_elapsed_string($row1['timestamp']); ?></i></small></h6>
-                                    <p><strong><?php echo $row1['content']; ?> </strong></p>
+                            <li class="comment-list">
+                                <div class="media border p-3">
+                                    <img src="/image/profile/profile.jpeg" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                                    <div class="media-body">
+                                        <!-- <h6 class="d-block mb-0 pb-0"><?php //echo "" . $row1['username']; 
+                                                                            ?></h6> -->
+                                        <h6 class="mt-0 pt-0"><a href="/user.php?usn=<?= $row1['username'] ?>">@<?php echo $row1['username']; ?></a><small><i> <?php echo time_elapsed_string($row1['timestamp']); ?></i></small></h6>
+                                        <p><strong><?php echo $row1['content']; ?> </strong></p>
 
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
+                            </li>
                         <?php
-                        }                        
+                        }
                         ?>
-                                    <div id="showComment"></div>
-<ul>
-                    <!-- </div> -->
+                        <div id="showComment"></div>
+                        <ul>
+                            <!-- </div> -->
                 </div>
 
                 <!-- delete name attribute later -->
