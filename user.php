@@ -4,9 +4,11 @@ session_start();
 
    // echo "session".$_SESSION["loggedin"];
    include_once "./config.php";
+   //include "./bootstrapcss.php";
 
    if ($_SESSION['loggedin'] == true) {
-       
+    $userid;
+
        $username = $_SESSION['username'];
        $uid = $_SESSION['id'];
 
@@ -19,12 +21,12 @@ session_start();
        } else {
            //find uid of userid
 
-           try {
-               $sql = "select * from users where username='$user';";
+       
+               $sql = "select * from users where username='$user'";
 
 
                $result = $conn->query($sql);
-                if($result->num_rows>0)
+                if($result)
                 {
                $row = $result->fetch_assoc();
 
@@ -32,10 +34,22 @@ session_start();
                 }
                //echo "userid for user $user is $userid";
 
-           } catch (Exception $e) {
-               echo 'Message: ' . $e->getMessage();
-           }
+        
 
+
+           $sql2 = "SELECT SUM(follower = '$userid') AS followerCount, SUM(following = '$userid') AS followingCount FROM followers WHERE follower = '$userid' OR following = '$userid';";
+
+
+           $result = $conn->query($sql2);
+           $row = $result->fetch_assoc();
+
+           $followerCount = $row['followerCount'];
+           $followingCount = $row['followingCount'];
+
+           $sql3 = "select * from followers where following='$userid' and follower='$uid'";
+           $result = $conn->query($sql3);
+           $row1 = $result->fetch_assoc();
+           $isfollow = "0";
 
 
 ?>
@@ -65,19 +79,6 @@ session_start();
 
 
  
-            $sql2 = "SELECT SUM(follower = '$userid') AS followerCount, SUM(following = '$userid') AS followingCount FROM followers WHERE follower = '$userid' OR following = '$userid';";
-
-
-            $result = $conn->query($sql2);
-            $row = $result->fetch_assoc();
-
-            $followerCount = $row['followerCount'];
-            $followingCount = $row['followingCount'];
-
-            $sql3 = "select * from followers where following='$userid' and follower='$uid'";
-            $result = $conn->query($sql3);
-            $row1 = $result->fetch_assoc();
-            $isfollow = "0";
         if($result->num_rows>0)
         {
          //   if ($row1['following'] == $row1['follower']) {

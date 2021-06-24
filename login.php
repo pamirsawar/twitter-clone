@@ -2,7 +2,8 @@
 //This script will handle login
 session_start();
 
-
+$err="";
+$username="";
 // check if the user is already logged in
 if (isset($_SESSION['username']) && $_SESSION['username']!="") {
   header("location: home.php");

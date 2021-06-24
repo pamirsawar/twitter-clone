@@ -3,15 +3,17 @@ function commentTweet()
 
     var comment=document.getElementById("comment").value;
 
-    var username=document.getElementById("username").value;
+  //  var username=document.getElementById("username").value;
 
-console.log("username");
+  var username=document.getElementById("username").value;
+
+console.log("username: "+username);
 
     var tid=document.getElementById("tid").value;
   
     //removing @ from username 
-    username=username.substring(username.indexOf("@") + 1);
-
+  
+  //  username=username.substring(username.indexOf("@") + 1);
 //    console.log(comment);
 
     var xhttp = new XMLHttpRequest();

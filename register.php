@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (!empty(trim($_POST['username']))) {
         $username = test_input($_POST['username']);
         // check if name only contains letters and whitespace
-        if (!preg_match("/^[0-9a-zA-Z-' ]*$/", $username)) {
+        if (!preg_match("/^[a-z\d_]{2,20}$/i", $username)) {
             $username_err = "no speacial charcter allowed in username";
         } else {
 

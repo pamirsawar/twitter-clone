@@ -21,11 +21,8 @@ $row = $result->fetch_assoc();
 include "./bootstrapcss.php";
 
 ?>
-
-
-
 <body>
-
+<?php include "./comp/nav.php" ?>
 
     <div id="tweet<?= $tid ?>" class=" container mt-3">
         <!-- <h2>Media Object</h2>
@@ -78,7 +75,7 @@ include "./bootstrapcss.php";
                 <div>
 
                     <!-- <div id="comments"> -->
-                    <ul id="commentDiv" class="list-group">
+                    <ul id="commentDiv"  class="list-group">
                         <?php
 
                         $sql1 = "select * from comments where tid=$tid order by timestamp";
@@ -88,7 +85,7 @@ include "./bootstrapcss.php";
                         while ($row1 = $result1->fetch_assoc()) {
 
                         ?>
-                            <li class="comment-list">
+                            <li id="comment<?= $row1['cid'];// ?>" class="comment-list">
                                 <div class="media border p-3">
                                     <img src="/image/profile/profile.jpeg" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
                                     <div class="media-body">
@@ -96,7 +93,9 @@ include "./bootstrapcss.php";
                                                                             ?></h6> -->
                                         <h6 class="mt-0 pt-0"><a href="/user.php?usn=<?= $row1['username'] ?>">@<?php echo $row1['username']; ?></a><small><i> <?php echo time_elapsed_string($row1['timestamp']); ?></i></small></h6>
                                         <p><strong><?php echo $row1['content']; ?> </strong></p>
-
+                                    <!-- check when the user == comment uid   -->
+                                        <button id="deletebtn" class="btn btn-danger btn-sm" onclick="deleteComment(<?= $row1['cid'] ?>)">delete </button>
+                                    
                                     </div>
                                 </div>
                             </li>
@@ -115,11 +114,10 @@ include "./bootstrapcss.php";
                     <textarea style="resize: none; height: 55px;" placeholder="type comment here" class="form-control" rows="5" id="comment" name="comment"></textarea>
                 </div>
                 <input type="hidden" id="tid" name="tid" value="<?= $tid ?>">
-                <input type="hidden" id="username" name="username" value="<?= $username ?>">
+                <input type="hidden" id="username" name="username" value="<?= $_SESSION['username']; ?>">
 
                 <button type="submit" onclick="commentTweet()" class="btn btn-primary">Comment</button>
                 <!-- </form> -->
-
                 <!-- <div id="showComment"></div> -->
             </div>
         </div>
